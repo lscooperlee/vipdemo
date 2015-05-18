@@ -1,4 +1,25 @@
-var drawNumber=function () {
+
+var modelFunc=function(func) {
+  var request=new XMLHttpRequest();
+  request.open('GET','/static/vipdemo/mnist.json',true);
+  request.onload=function(){
+    if (request.status >= 200 && request.status < 400) {
+      var data = JSON.parse(request.responseText);
+      func(data);
+    }else{
+      console.log("file error");
+    }
+  };
+
+    request.onerror=function(){
+      console.log("server error");
+    };
+
+    request.send();
+};
+
+var drawNumber=function (model) {
+
     var paint=false;
     var clickX = new Array();
     var clickY = new Array();
@@ -29,7 +50,52 @@ var drawNumber=function () {
 
     area.addEventListener("mouseup",function(e) {
         paint=false;
-    })
+        var vec=toVector();
+        recognize(vec);
+    });
+
+    area.addEventListener("mouseleave", function(e){
+        paint=false;
+    });
+
+    function toVector() {
+        vec=Array.apply(null, new Array(28*28)).map(Number.prototype.valueOf, 0);
+        w=parseInt(style.width);
+        h=parseInt(style.height);
+        for (var i = clickX.length - 1; i >= 0; i--) {
+          x=parseInt(clickX[i]);
+          y=parseInt(clickY[i]);
+          pos=Math.round(28*((x/w)+(y/h)*28));
+          vec[pos]=1;
+        };
+        return vec;
+    };
+
+    function recognize(vec){
+      var length=model.length;
+      for(var i=0;i<length-1;i++){
+        var weights=model[i].weights;
+        var hid=model[i].bias_hidden[0];
+        var ret=new Array(hid.length);
+        for(var j=0;j<vec.length;j++){
+          for(var k=0;k<hid.length;k++){
+            ret[k]=weights[j][k]*vec[j]+hid[k];
+          }
+        }
+        vec=ret;
+      }
+
+      var weights=model[length-1].weights;
+      var bis=model[length-1].bias[0];
+      var ret=new Array(bis.length);
+      for(var j=0;j<vec.length;j++){
+        for(var k=0;k<bis.length;k++){
+          ret[k]=weights[j][k]*vec[j]+bis[k];
+        }
+      }
+      console.log(ret);
+
+    };
 
     function addClick(x, y, dragging){
         clickX.push(x);
@@ -62,5 +128,5 @@ var drawNumber=function () {
 };
 
 document.addEventListener('DOMContentLoaded', function() {
-    drawNumber();
+    modelFunc(drawNumber);
 }, false);
