@@ -1,16 +1,15 @@
 body {
     margin: 0 0 0 0;
-    background-color: #5b88f5;    
 }
 
 #center {
-    width: 50rem;
+    width: 36rem;
     margin-right: auto;
     margin-left: auto;
     background: linear-gradient(to right, #615182, #002C8E);
-    display: table;
     border-radius: 1rem;
     vertical-align: center;
+    text-align: center;
 }
 
 h1 {
@@ -23,21 +22,50 @@ h1 {
     height: 5rem;
 }
 
+.row {
+    display: inline-block;
+}
+
 .left {
     width: 12rem;
     background-color: #EEEAF9;    
     display: inline-block;
     height: 12rem;
-    margin: 0.5rem  0 0.5rem 0.5rem;
+    margin: 0.5rem  0.5rem 0.5rem 0.5rem;
     border-radius: 0.8rem;
+    float: left;
 }
 
 .right {
-    width: 36rem;
+    width: 12rem;
+    float: left;
     background-color: #7B9778;
     display: inline-block;
-    float: right;
     height: 12rem;
-    margin: 0.5rem 0.5rem 0.5rem 0;
+    margin: 0.5rem 0.5rem 0.5rem 0.5rem;
     border-radius: 0.8rem;
+}
+
+#rect {
+    background-color: #ff6600;
+    color: black;
+    display: inline-block;
+    float: left;
+    height: 8rem;
+    width: 8rem;
+    vertical-align: center;
+    line-height: 8rem;
+    border-radius: 0.8rem;
+    margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+    font-family: serif;
+    font-size: 7rem;
+}
+
+.testdata {
+    width: 6rem;
+    height: 6rem;
+    margin: 0.4rem 0.4rem 0.4rem 0.4rem;
+    display: inline-block;
+    border-radius: 0.5rem;
+    background-color: #5b88f5;    
 }
