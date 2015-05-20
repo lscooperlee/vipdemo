@@ -1,4 +1,7 @@
 
+var vecForRec;
+var modelForRec;
+
 function toVector(clickX, clickY, width,height) {
     var vec=new Array(28*28);
     for(var m=0;m<vec.length;m++){
@@ -28,14 +31,14 @@ function toVector(clickX, clickY, width,height) {
 
         vec[(yp+14)*28+xp+14]=1;
 
-        vec[(yp+14)*28+xp+14-j]=1;
-        //vec[(yp+14)*28+xp+14+j]=1;
+        //vec[(yp+14)*28+xp+14-j]=1;
+        vec[(yp+14)*28+xp+14+j]=1;
 
-        vec[(yp-j+14)*28+xp+14-j]=1;
+        //vec[(yp-j+14)*28+xp+14-j]=1;
         vec[(yp-j+14)*28+xp+14+j]=1;
-        vec[(yp-j+14)*28+xp+14]=1;
+        //vec[(yp-j+14)*28+xp+14]=1;
 
-        //vec[(yp+14+j)*28+xp+14+j]=1;
+        vec[(yp+14+j)*28+xp+14+j]=1;
         vec[(yp+14+j)*28+xp+14-j]=1;
         vec[(yp+14+j)*28+xp+14]=1;
 
@@ -43,6 +46,19 @@ function toVector(clickX, clickY, width,height) {
     };
     return vec;
 };
+
+function installRecEvent () {
+  function showRecResult() {
+    var ret=recognize(vecForRec,modelForRec);
+    var r=maxIdx(ret);
+    var d=document.getElementById("rect");
+    d.innerHTML=r;
+  }
+
+  var area=document.getElementById("showArea");
+
+  area.addEventListener("click",showRecResult);
+}
 
 function recognize(vec, model){
 
@@ -123,13 +139,15 @@ var maxIdx=function(vec){
   return idx;
 }
 
+
+
 var modelFunc=function(func) {
   var request=new XMLHttpRequest();
   request.open('GET','/static/vipdemo/mnist.json',true);
   request.onload=function(){
     if (request.status >= 200 && request.status < 400) {
-      var data = JSON.parse(request.responseText);
-      func(data);
+      modelForRec = JSON.parse(request.responseText);
+      func();
     }else{
       console.log("file error");
     }
@@ -142,7 +160,17 @@ var modelFunc=function(func) {
   request.send();
 };
 
+
 var getTestData=function(){
+
+  function installEvent(vec,id) {
+    var area=document.getElementById(id)
+    area.addEventListener("click", function(d) {
+      showNumber(vec,"showArea");
+      vecForRec=vec;
+    });  
+  }
+
   var request=new XMLHttpRequest();
   request.open('GET','/vipdemo/testData.json',true);
 
@@ -153,6 +181,7 @@ var getTestData=function(){
       for(var i=0;i<data.length;i++){
         var id="tst"+i;
         showNumber(data[i],id); 
+        installEvent(data[i],id);
       }
     }else{
       console.log("file error");
@@ -177,7 +206,7 @@ var showNumber=function(vec, id){
     var width=context.canvas.width;
     var height=context.canvas.height;
 
-    context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clears the canvas
+    context.clearRect(0, 0, width, height); // Clears the canvas
       
     context.fillStyle= "#f0f0f0";
                 
@@ -192,12 +221,7 @@ var showNumber=function(vec, id){
 
 }
 
-var testOnTouch(){
-  var obj=document.getElementByClass("testData");
-  obj.on
-}
-
-var drawNumber=function (model) {
+var drawNumber=function () {
 
     var paint=false;
     var clickX = new Array();
@@ -230,14 +254,10 @@ var drawNumber=function (model) {
 
     area.addEventListener("mouseleave", function(e){
         paint=false;
-        var vec=toVector(clickX,clickY,style.width,style.height);
-        var ret=recognize(vec,model);
-        var r=maxIdx(ret);
-        console.log(ret)
-        console.log(r)
-        var d=document.getElementById("rect");
-        d.innerHTML=r;
-        showNumber(vec,"showArea")
+        if(clickX.length==0)
+          return;
+        vecForRec=toVector(clickX,clickY,style.width,style.height);
+        showNumber(vecForRec,"showArea")
         clickX.length=0;
         clickY.length=0;
         clickDrag.length=0;
@@ -276,4 +296,5 @@ var drawNumber=function (model) {
 document.addEventListener('DOMContentLoaded', function() {
     getTestData();
     modelFunc(drawNumber);
+    installRecEvent();
 }, false);

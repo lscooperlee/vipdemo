@@ -4,8 +4,8 @@ body {
 
 #center {
     width: 36rem;
-    margin-right: auto;
     margin-left: auto;
+    margin-right: auto;
     background: linear-gradient(to right, #615182, #002C8E);
     border-radius: 1rem;
     vertical-align: center;
@@ -69,3 +69,8 @@ h1 {
     border-radius: 0.5rem;
     background-color: #5b88f5;    
 }
+
+#showArea:hover, .testdata:hover {
+    cursor: pointer;
+}
+
