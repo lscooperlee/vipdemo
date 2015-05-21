@@ -6,6 +6,8 @@ var retForRec;
 var clickX = new Array();
 var clickY = new Array();
 var clickDrag = new Array();
+var canvasWidth;
+var canvasHeight;
 
 function toVector(clickX, clickY, width,height) {
     var vec=new Array(28*28);
@@ -64,6 +66,10 @@ function installRecEvent () {
     clickX.length=0;
     clickY.length=0;
     clickDrag.length=0;
+
+    var area=document.getElementById("canvasArea")
+    var context=area.getContext("2d");
+    context.clearRect(0,0,canvasHeight,canvasWidth);
   }
 
   var area=document.getElementById("rect");
@@ -243,6 +249,10 @@ var drawNumber=function () {
 
 
     var context=area.getContext("2d");
+
+    canvasHeight=context.canvas.height;
+    canvasWidth=context.canvas.width;
+
     area.addEventListener("mousedown",function(e) {
         paint = true;
         addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
@@ -258,14 +268,14 @@ var drawNumber=function () {
 
     area.addEventListener("mouseup",function(e) {
         paint=false;
-        vecForRec=toVector(clickX,clickY,style.width,style.height);
+        vecForRec=toVector(clickX,clickY,canvasWidth,canvasHeight);
     });
 
     area.addEventListener("mouseleave", function(e){
         paint=false;
         if(clickX.length==0)
           return;
-        vecForRec=toVector(clickX,clickY,style.width,style.height);
+        vecForRec=toVector(clickX,clickY,canvasWidth,canvasHeight);
         showNumber(vecForRec,"showArea")
     });
 
@@ -276,7 +286,7 @@ var drawNumber=function () {
     }
 
     function redraw(){
-      context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clears the canvas
+      context.clearRect(0, 0, canvasWidth, canvasHeight); // Clears the canvas
       
       context.strokeStyle = "#df4b26";
       context.lineJoin = "round";
