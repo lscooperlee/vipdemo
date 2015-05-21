@@ -3,27 +3,33 @@
     <!--script src="//code.jquery.com/jquery-1.11.3.min.js"></script-->
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static "vipdemo/vipdemo.css" %}"></link>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 </head>
 <body>
     <h1>Image Classification demo</h1>
-    <div id="center">
-        <div class="row">
-            <canvas class="left" id="canvasArea"></canvas> 
-            <canvas class="right" id="showArea"></canvas> 
-            <div id="rect"> </div> 
-            <!--svg class="right" id="dbnBar"></svg-->
-        </div class="row">
-        <div>
-            <canvas class="testdata" id="tst0"></canvas>
-            <canvas class="testdata" id="tst1"></canvas>
-            <canvas class="testdata" id="tst2"></canvas>
-            <canvas class="testdata" id="tst3"></canvas>
-            <canvas class="testdata" id="tst4"></canvas>
-            <canvas class="testdata" id="tst5"></canvas>
-            <canvas class="testdata" id="tst6"></canvas>
-            <canvas class="testdata" id="tst7"></canvas>
-            <canvas class="testdata" id="tst8"></canvas>
-            <canvas class="testdata" id="tst9"></canvas>
+    <div id="body">
+        <div id="operate">
+            <div class="row">
+                <canvas class="left" id="canvasArea"></canvas> 
+                <canvas class="right" id="showArea"></canvas> 
+                <div id="rect"></div> 
+                <!--svg class="right" id="dbnBar"></svg-->
+            </div class="row">
+            <div>
+                <canvas class="testdata" id="tst0"></canvas>
+                <canvas class="testdata" id="tst1"></canvas>
+                <canvas class="testdata" id="tst2"></canvas>
+                <canvas class="testdata" id="tst3"></canvas>
+                <canvas class="testdata" id="tst4"></canvas>
+                <canvas class="testdata" id="tst5"></canvas>
+                <canvas class="testdata" id="tst6"></canvas>
+                <canvas class="testdata" id="tst7"></canvas>
+                <canvas class="testdata" id="tst8"></canvas>
+                <canvas class="testdata" id="tst9"></canvas>
+            </div>
+        </div>
+        <div id="info">
+            <svg id="bar"></svg>
         </div>
     </div>
     <script type="text/javascript" src="{% static "vipdemo/vipdemo.js" %}"></script>

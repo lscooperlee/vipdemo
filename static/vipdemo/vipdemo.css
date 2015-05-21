@@ -1,15 +1,23 @@
 body {
     margin: 0 0 0 0;
+    text-align: center;
+    font-size: 10px;
 }
 
-#center {
-    width: 36rem;
-    margin-left: auto;
-    margin-right: auto;
+#body {
+    border-radius: 2rem;
+    display: inline-block;
+}
+
+#operate {
+    width: 32rem;
+    margin-left: 0;
     background: linear-gradient(to right, #615182, #002C8E);
     border-radius: 1rem;
     vertical-align: center;
     text-align: center;
+    display: inline-block;
+    border: dotted white;    
 }
 
 h1 {
@@ -20,30 +28,28 @@ h1 {
     line-height: 5rem;
     color: white;
     height: 5rem;
+    margin-bottom: 1rem;
 }
 
 .row {
     display: inline-block;
 }
 
-.left {
-    width: 12rem;
-    background-color: #EEEAF9;    
-    display: inline-block;
-    height: 12rem;
-    margin: 0.5rem  0.5rem 0.5rem 0.5rem;
-    border-radius: 0.8rem;
+.right, .left {
+    width: 11rem;
     float: left;
+    display: inline-block;
+    height: 11rem;
+    margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+    border-radius: 0.8rem;
+    cursor: crosshair;
 }
 
 .right {
-    width: 12rem;
-    float: left;
     background-color: #7B9778;
-    display: inline-block;
-    height: 12rem;
-    margin: 0.5rem 0.5rem 0.5rem 0.5rem;
-    border-radius: 0.8rem;
+}
+.left {
+    background-color: #EEEAF9;    
 }
 
 #rect {
@@ -51,26 +57,88 @@ h1 {
     color: black;
     display: inline-block;
     float: left;
-    height: 8rem;
-    width: 8rem;
+    height: 6rem;
+    width: 6rem;
     vertical-align: center;
-    line-height: 8rem;
+    line-height: 6rem;
     border-radius: 0.8rem;
     margin: 0.5rem 0.5rem 0.5rem 0.5rem;
     font-family: serif;
-    font-size: 7rem;
+    font-size: 5rem;
+    user-select: none;
 }
 
 .testdata {
-    width: 6rem;
-    height: 6rem;
+    width: 5rem;
+    height: 5rem;
     margin: 0.4rem 0.4rem 0.4rem 0.4rem;
     display: inline-block;
     border-radius: 0.5rem;
     background-color: #5b88f5;    
 }
 
-#showArea:hover, .testdata:hover {
+.testdata:hover, #rect {
     cursor: pointer;
 }
 
+#info {
+    vertical-align: top;
+    margin-left: 1rem;
+    background: white;
+    display: inline-block;
+    border-radius: 0.4rem;
+    border: dotted blue;
+
+    background:
+        linear-gradient(-90deg, rgba(0,0,0,.05) 1px, transparent 1px),
+        linear-gradient(rgba(0,0,0,.05) 1px, transparent 1px), 
+        linear-gradient(-90deg, rgba(0, 0, 0, .04) 1px, transparent 1px),
+        linear-gradient(rgba(0,0,0,.04) 1px, transparent 1px),
+        linear-gradient(transparent 3px, #f2f2f2 3px, #f2f2f2 78px, transparent 78px),
+        linear-gradient(-90deg, #aaa 1px, transparent 1px),
+        linear-gradient(-90deg, transparent 3px, #f2f2f2 3px, #f2f2f2 78px, transparent 78px),
+        linear-gradient(#aaa 1px, transparent 1px),
+        #f2f2f2;
+    background-size:
+        4px 4px,
+        4px 4px,
+        80px 80px,
+        80px 80px,
+        80px 80px,
+        80px 80px,
+        80px 80px,
+        80px 80px;
+}
+
+#bar {
+    margin: 0;
+    width: 24rem;
+    height: 14rem;
+}
+
+
+@media only screen and (max-device-width: 480px){
+    .right ,.testdata, #info{
+        display: none;
+    }
+    #body, #operate,.row{
+        width: 100%;
+        margin: 0;
+        display: block;
+        text-align: center;
+    }
+    .left {
+        width: 98%;
+        padding-top: 98%;
+        height: 0;
+    }
+    #rect {
+        margin: auto;
+        padding-top: 48%;
+        width: 98%;        
+
+    }
+    h1 {
+        font-size: 64px;
+    }
+}

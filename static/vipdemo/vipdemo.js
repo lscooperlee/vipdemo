@@ -1,6 +1,11 @@
 
 var vecForRec;
 var modelForRec;
+var retForRec;
+
+var clickX = new Array();
+var clickY = new Array();
+var clickDrag = new Array();
 
 function toVector(clickX, clickY, width,height) {
     var vec=new Array(28*28);
@@ -49,13 +54,19 @@ function toVector(clickX, clickY, width,height) {
 
 function installRecEvent () {
   function showRecResult() {
-    var ret=recognize(vecForRec,modelForRec);
-    var r=maxIdx(ret);
+    retForRec=recognize(vecForRec,modelForRec);
+    var r=maxIdx(retForRec);
     var d=document.getElementById("rect");
     d.innerHTML=r;
+
+    svgInfo();
+
+    clickX.length=0;
+    clickY.length=0;
+    clickDrag.length=0;
   }
 
-  var area=document.getElementById("showArea");
+  var area=document.getElementById("rect");
 
   area.addEventListener("click",showRecResult);
 }
@@ -224,9 +235,6 @@ var showNumber=function(vec, id){
 var drawNumber=function () {
 
     var paint=false;
-    var clickX = new Array();
-    var clickY = new Array();
-    var clickDrag = new Array();
 
     var area=document.getElementById("canvasArea")
     var style = window.getComputedStyle(area);
@@ -250,6 +258,7 @@ var drawNumber=function () {
 
     area.addEventListener("mouseup",function(e) {
         paint=false;
+        vecForRec=toVector(clickX,clickY,style.width,style.height);
     });
 
     area.addEventListener("mouseleave", function(e){
@@ -258,9 +267,6 @@ var drawNumber=function () {
           return;
         vecForRec=toVector(clickX,clickY,style.width,style.height);
         showNumber(vecForRec,"showArea")
-        clickX.length=0;
-        clickY.length=0;
-        clickDrag.length=0;
     });
 
     function addClick(x, y, dragging){
@@ -293,7 +299,46 @@ var drawNumber=function () {
 
 };
 
+function svgInit(){
+  var svg=d3.select("#bar");
+  svg.selectAll("rect").data(d3.range(10)).enter().append("rect");
+  svg.selectAll("text").data(d3.range(10)).enter().append("text");
+}
+
+function svgInfo () {
+
+  var style=window.getComputedStyle(document.getElementById("bar"))
+
+  var width=parseInt(style.width);
+  var height=parseInt(style.height);
+  var toppad=Math.round(0.1*height);
+
+  var xScale=d3.scale.ordinal().domain(d3.range(retForRec.length)).rangeRoundBands([0,width],0.1);
+  var yScale=d3.scale.linear().domain([d3.min(retForRec),d3.max(retForRec)]).range([toppad,height-toppad]);
+
+  var svg=d3.select("#bar");
+  var bars=svg.selectAll("rect").data(retForRec);
+
+  bars.transition().duration(500).delay(function(d,i){return i*1000/retForRec.length;}).attr({
+    "x": function(d,i){return xScale(i);},
+    "y": function(d){return height-yScale(d);},
+    "width": xScale.rangeBand(),
+    "height": function(d){ return yScale(d);},
+    "fill": function(d){return "rgb(0,0,"+ Math.round(yScale(d)*255/(height-toppad)) +")";},
+  });
+
+  var txts=svg.selectAll("text").data(retForRec).text(function(d,i){return i;});
+  txts.attr({
+    "x": function(d,i){return xScale(i)+xScale.rangeBand()/2;},
+    "y": function(d){return height;},
+    "fill": "white",
+    "text-anchor": "middle",
+  });
+
+}
+
 document.addEventListener('DOMContentLoaded', function() {
+    svgInit() ;
     getTestData();
     modelFunc(drawNumber);
     installRecEvent();
