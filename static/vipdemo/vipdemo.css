@@ -2,6 +2,7 @@ body {
     margin: 0 0 0 0;
     text-align: center;
     font-size: 10px;
+    background: radial-gradient(circle, hsl(240,20%,80%), hsl(240,80%,90%));
 }
 
 #body {
@@ -36,6 +37,7 @@ h1 {
 .row {
     display: inline-block;
 }
+
 
 .right, .left {
     width: 11rem;
@@ -126,13 +128,13 @@ h1 {
 }
 
 footer {
-    margin-top: 3rem;
+    margin-top: 2rem;
     text-align: right;
     vertical-align: bottom;
     clear: both;
     font-weight: lighter;
     font-size: 1.2rem;
-    line-height: 0.1rem;
+    line-height: 0.2rem;
 }
 
 footer  a {
@@ -140,13 +142,14 @@ footer  a {
 }
 
 rect:hover{
-    fill: orange;
+    fill: #ff6600;
 
 }
 
 rect{
     transition: fill 0.3s;
 }
+
 
 
 

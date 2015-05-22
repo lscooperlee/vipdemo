@@ -4,6 +4,7 @@
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static "vipdemo/vipdemo.css" %}"></link>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{% static "vipdemo/vipdemo.js" %}"></script>
 </head>
 <body>
     <h1>Image Classification demo</h1>
@@ -13,29 +14,33 @@
                 <canvas class="left" id="canvasArea"></canvas> 
                 <canvas class="right" id="showArea"></canvas> 
                 <div id="result"></div> 
+                <div id="modalArea"></div>
+                <div id="modalResult"></div>
                 <!--svg class="right" id="dbnBar"></svg-->
-            </div class="row">
-            <div>
-                <canvas class="testdata" id="tst0"></canvas>
-                <canvas class="testdata" id="tst1"></canvas>
-                <canvas class="testdata" id="tst2"></canvas>
-                <canvas class="testdata" id="tst3"></canvas>
-                <canvas class="testdata" id="tst4"></canvas>
-                <canvas class="testdata" id="tst5"></canvas>
-                <canvas class="testdata" id="tst6"></canvas>
-                <canvas class="testdata" id="tst7"></canvas>
-                <canvas class="testdata" id="tst8"></canvas>
-                <canvas class="testdata" id="tst9"></canvas>
+            </div>
+            <div class="row1">
+                <div>
+                    <canvas class="testdata" id="tst0"></canvas>
+                    <canvas class="testdata" id="tst1"></canvas>
+                    <canvas class="testdata" id="tst2"></canvas>
+                    <canvas class="testdata" id="tst3"></canvas>
+                    <canvas class="testdata" id="tst4"></canvas>
+                    <canvas class="testdata" id="tst5"></canvas>
+                    <canvas class="testdata" id="tst6"></canvas>
+                    <canvas class="testdata" id="tst7"></canvas>
+                    <canvas class="testdata" id="tst8"></canvas>
+                    <canvas class="testdata" id="tst9"></canvas>
+                </div>
+                <div></div>
             </div>
         </div>
         <div id="info">
             <svg id="bar"></svg>
             <footer>
-                <p>source: <a href=""></a></p>
+                <p>Source Code: <a href="https://github.com/lscooperlee/vipdemo">github/vipdemo</a></p>
                 <p id="copyright">Copyright © Cooper 2015</p>
             </footer>
         </div>
     </div>
-    <script type="text/javascript" src="{% static "vipdemo/vipdemo.js" %}"></script>
 </body>
 </html>
