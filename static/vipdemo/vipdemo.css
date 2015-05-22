@@ -17,7 +17,7 @@ body {
     vertical-align: center;
     text-align: center;
     display: inline-block;
-    border: dotted white;    
+    border: 0.3rem dotted white;    
 }
 
 h1 {
@@ -30,6 +30,7 @@ h1 {
     height: 5rem;
     margin-bottom: 1rem;
     font-size: 2rem;
+    font-weight: 100;
 }
 
 .row {
@@ -53,7 +54,7 @@ h1 {
     background-color: #EEEAF9;    
 }
 
-#rect {
+#result {
     background-color: #ff6600;
     color: black;
     display: inline-block;
@@ -67,6 +68,7 @@ h1 {
     font-family: serif;
     font-size: 5rem;
     user-select: none;
+
 }
 
 .testdata {
@@ -78,9 +80,15 @@ h1 {
     background-color: #5b88f5;    
 }
 
-.testdata:hover, #rect {
+.testdata:hover, #result {
     cursor: pointer;
 }
+
+.testdata:hover {
+    box-shadow: 0 0 0 0.2rem rgb(91,136,245); 
+    transition:  box-shadow 200ms;
+}
+
 
 #info {
     vertical-align: top;
@@ -94,7 +102,7 @@ h1 {
     width: 24rem;
     height: 14rem;
 
-    border: dotted blue;
+    border: 0.3rem dotted blue;
 
     background:
         linear-gradient(-90deg, rgba(0,0,0,.05) 1px, transparent 1px),
@@ -118,9 +126,17 @@ h1 {
 }
 
 footer {
+    margin-top: 3rem;
     text-align: right;
     vertical-align: bottom;
     clear: both;
+    font-weight: lighter;
+    font-size: 1.2rem;
+    line-height: 0.1rem;
+}
+
+footer  a {
+    text-decoration: none;
 }
 
 rect:hover{
@@ -131,6 +147,7 @@ rect:hover{
 rect{
     transition: fill 0.3s;
 }
+
 
 
 @media only screen and (max-device-width: 480px){
@@ -148,7 +165,7 @@ rect{
         padding-top: 98%;
         height: 0;
     }
-    #rect {
+    #result {
         margin: auto;
         padding-top: 48%;
         width: 98%;        

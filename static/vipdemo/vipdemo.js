@@ -58,7 +58,7 @@ function installRecEvent () {
   function showRecResult() {
     retForRec=recognize(vecForRec,modelForRec);
     var r=maxIdx(retForRec);
-    var d=document.getElementById("rect");
+    var d=document.getElementById("result");
     d.innerHTML=r;
 
     svgInfo();
@@ -72,7 +72,7 @@ function installRecEvent () {
     context.clearRect(0,0,canvasHeight,canvasWidth);
   }
 
-  var area=document.getElementById("rect");
+  var area=document.getElementById("result");
 
   area.addEventListener("click",showRecResult);
 }
