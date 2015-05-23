@@ -19,6 +19,7 @@ body {
     text-align: center;
     display: inline-block;
     border: 0.3rem dotted white;    
+
 }
 
 h1 {
@@ -47,6 +48,7 @@ h1 {
     margin: 0.5rem 0.5rem 0.5rem 0.5rem;
     border-radius: 0.8rem;
     cursor: crosshair;
+
 }
 
 .right {
@@ -55,6 +57,7 @@ h1 {
 .left {
     background-color: #EEEAF9;    
 }
+
 
 #result {
     background-color: #ff6600;

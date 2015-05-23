@@ -1,4 +1,5 @@
 (function() {
+
   var vecForRec;
   var modelForRec;
   var retForRec;
@@ -54,28 +55,6 @@
       return vec;
   };
 
-  function installRecEvent () {
-    function showRecResult() {
-      retForRec=recognize(vecForRec,modelForRec);
-      var r=maxIdx(retForRec);
-      var d=document.getElementById("result");
-      d.innerHTML=r;
-
-      svgInfo();
-
-      clickX.length=0;
-      clickY.length=0;
-      clickDrag.length=0;
-
-      var area=document.getElementById("canvasArea")
-      var context=area.getContext("2d");
-      context.clearRect(0,0,canvasHeight,canvasWidth);
-    }
-
-    var area=document.getElementById("result");
-
-    area.addEventListener("click",showRecResult);
-  }
 
   function recognize(vec, model){
 
@@ -183,8 +162,8 @@
     function installEvent(vec,id) {
       var area=document.getElementById(id)
       area.addEventListener("click", function(d) {
-        showNumber(vec,"showArea");
         vecForRec=vec;
+        installRecEvent(0);
       });  
     }
 
@@ -192,7 +171,6 @@
     request.open('GET','/vipdemo/testData.json',true);
 
     request.onload=function(){
-      console.log("dd")
       if (request.status >= 200 && request.status < 400) {
         var data = JSON.parse(request.responseText);
         for(var i=0;i<data.length;i++){
@@ -241,12 +219,9 @@
   var drawNumber=function () {
 
       var paint=false;
+      var timeoutobj=null;
 
       var area=document.getElementById("canvasArea")
-      var style = window.getComputedStyle(area);
-      area.setAttribute('width', style.width);
-      area.setAttribute('height', style.height);
-
 
       var context=area.getContext("2d");
 
@@ -255,6 +230,7 @@
 
       area.addEventListener("mousedown",function(e) {
           paint = true;
+          clearTimeout(timeoutobj);
           addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
           redraw();
       });
@@ -269,6 +245,7 @@
       area.addEventListener("mouseup",function(e) {
           paint=false;
           vecForRec=toVector(clickX,clickY,canvasWidth,canvasHeight);
+          timeoutobj=installRecEvent(1200);
       });
 
       area.addEventListener("mouseleave", function(e){
@@ -276,7 +253,7 @@
           if(clickX.length==0)
             return;
           vecForRec=toVector(clickX,clickY,canvasWidth,canvasHeight);
-          showNumber(vecForRec,"showArea")
+          timeoutobj=installRecEvent(50);
       });
 
       function addClick(x, y, dragging){
@@ -304,10 +281,50 @@
            context.lineTo(clickX[i], clickY[i]);
            context.closePath();
            context.stroke();
+      }
     }
-  }
+
 
   };
+
+  function installRecEvent (time) {
+    function showRecResult() {
+      retForRec=recognize(vecForRec,modelForRec);
+      var r=maxIdx(retForRec);
+      var d=document.getElementById("result");
+      d.innerHTML=r;
+
+      svgInfo();
+
+      clickX.length=0;
+      clickY.length=0;
+      clickDrag.length=0;
+
+      var area=document.getElementById("canvasArea")
+      var context=area.getContext("2d");
+      context.clearRect(0,0,canvasHeight,canvasWidth);
+      showNumber(vecForRec,"showArea")
+    }
+
+    var timeoutobj=setTimeout(showRecResult,time);
+    return timeoutobj;
+  }
+
+  function initTips() {
+      var area=document.getElementById("canvasArea")
+      var style = window.getComputedStyle(area);
+      area.setAttribute('width', style.width);
+      area.setAttribute('height', style.height);
+
+      var context=area.getContext("2d");
+
+      context.font="1.5rem serif";
+      context.fillStyle="#888888";
+      context.textAlign="center";
+      context.fillText("write on me",context.canvas.width/2,context.canvas.height/2);
+
+  }
+
 
   function svgInit(){
     var svg=d3.select("#bar");
@@ -316,10 +333,6 @@
   }
 
   function modalTips () {
-    /*
-    var b=document.getElementById("body");
-    b.classList.add("modalBody");
-    */
   }
 
   function svgInfo () {
@@ -358,7 +371,7 @@
       svgInit() ;
       getTestData();
       modelFunc(drawNumber);
-      installRecEvent();
-      modalTips();
+      initTips();
   }, false);
+
 }());
