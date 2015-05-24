@@ -2,7 +2,8 @@ body {
     margin: 0 0 0 0;
     text-align: center;
     font-size: 10px;
-    background: radial-gradient(circle, hsl(240,20%,80%), hsl(240,80%,90%));
+    /*background: radial-gradient(circle, hsl(240,20%,80%), hsl(240,80%,90%));*/
+	background: url(bg.jpg);
 }
 
 #body {
