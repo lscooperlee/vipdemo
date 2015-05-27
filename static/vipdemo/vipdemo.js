@@ -228,33 +228,42 @@
       canvasHeight=context.canvas.height;
       canvasWidth=context.canvas.width;
 
-      area.addEventListener("mousedown",function(e) {
+      area.addEventListener("mousedown",downevent);
+      area.addEventListener("mousemove", moveevent);
+      area.addEventListener("mouseup", upevent);
+      area.addEventListener("mouseleave", leaveevent);
+
+      area.addEventListener("touchstart", function(e){downevent(e); e.preventDefault();});
+      area.addEventListener("touchmove", function(e){ moveevent(e);e.preventDefault();});
+      area.addEventListener("touchend", function(e){upevent(e);e.preventDefault();});
+
+      function downevent(e) {
           paint = true;
           clearTimeout(timeoutobj);
           addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
           redraw();
-      });
+      };
 
-      area.addEventListener("mousemove", function(e) {
+      function moveevent(e) {
           if(paint){
               addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true);
               redraw();
           }
-      });
+      };
 
-      area.addEventListener("mouseup",function(e) {
+      function upevent(e) {
           paint=false;
           vecForRec=toVector(clickX,clickY,canvasWidth,canvasHeight);
           timeoutobj=installRecEvent(1200);
-      });
+      };
 
-      area.addEventListener("mouseleave", function(e){
+      function leaveevent(e){
           paint=false;
           if(clickX.length==0)
             return;
           vecForRec=toVector(clickX,clickY,canvasWidth,canvasHeight);
           timeoutobj=installRecEvent(50);
-      });
+      };
 
       function addClick(x, y, dragging){
           clickX.push(x);
@@ -368,9 +377,9 @@
   }
 
   document.addEventListener('DOMContentLoaded', function() {
+      modelFunc(drawNumber);
       svgInit() ;
       getTestData();
-      modelFunc(drawNumber);
       initTips();
   }, false);
 
